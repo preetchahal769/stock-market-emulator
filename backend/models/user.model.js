@@ -31,16 +31,6 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
-    confirmPassword: {
-      type: String,
-      required: true,
-      validate: {
-        validator: function (value) {
-          return value === this.password; // `confirmPassword` must match `password`
-        },
-        message: 'Passwords do not match',
-      },
-    },
   },
   {
     timestamps: true,
