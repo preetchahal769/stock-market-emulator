@@ -31,6 +31,15 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
+    userVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      default: null,
+      expires: Date.now() + 300000,
+    },
     role: {
       type: String,
       enum: ["customer", "admin"],
