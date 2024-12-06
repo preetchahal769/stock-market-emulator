@@ -2,10 +2,13 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import { Eye, EyeOff } from "lucide-react";
 import "react-datepicker/dist/react-datepicker.css";
+import { Link } from "react-router-dom";
 
 const SignupPage = () => {
   const [startDate, setStartDate] = useState();
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
     <div className="flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8 w-full">
       <div className="bg-white rounded-xl shadow-md p-10 max-w-3xl w-full">
@@ -17,7 +20,10 @@ const SignupPage = () => {
           </p>
         </div>
 
-        <form className="mt-10 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-6">
+        <form
+          className="mt-10 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-6"
+          onSubmit={handleSubmit}
+        >
           <div className="sm:col-span-3">
             <label
               htmlFor="fullName"
@@ -119,6 +125,12 @@ const SignupPage = () => {
             </button>
           </div>
         </form>
+        <div className="flex flex-row justify-center items-center mt-4">
+          {" "}
+          <Link to="/login" className="text-indigo-500 hover:text-indigo-800">
+            Already have an account ? Login
+          </Link>
+        </div>
       </div>
     </div>
   );
