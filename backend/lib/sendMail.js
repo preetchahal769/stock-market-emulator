@@ -1,13 +1,35 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
+import { google } from "googleapis";
 import dotenv from "dotenv";
 
 dotenv.config();
+const oAuth2Client = new google.auth.OAuth2(
+  process.env.MAIL_CLIENT_ID,
+  process.env.MAIL_CLIENT_SECRET,
+  process.env.MAIL_REDIRECT_URI
+);
 
-const resend = new Resend(process.env.RESEND_MAIL_API_KEY);
+oAuth2Client.setCredentials({ refresh_token: process.env.MAIL_REFRESH_TOKEN });
 
 export const sendVerificationEmail = async (email, otp, res) => {
   try {
-    const { data, error } = await resend.emails.send({
+    const accessToken = await oAuth2Client.getAccessToken();
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: process.env.MAIL,
+        clientId: process.env.MAIL_CLIENT_ID,
+        clientSecret: process.env.MAIL_CLIENT_SECRET,
+        refreshToken: process.env.MAIL_REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
+    const mailOptions = {
       from: "Stock Market Emulator <onboarding@resend.dev>",
       to: email,
       subject: "Welcome to Stock Market Emulator 🚀",
@@ -31,14 +53,13 @@ export const sendVerificationEmail = async (email, otp, res) => {
     </div>
     
         `,
-    });
-    if (error) {
-      console.log(`Error sending email: ${error.message}`);
-      return res.status(500).json({ message: error.message });
-    }
+    };
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent: " + info.response);
 
-    return data;
+    return info.response;
   } catch (error) {
+    throw error;
     console.log(error);
   }
 };
