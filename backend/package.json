@@ -1,15 +1,19 @@
 {
-  "name": "stock-market-emulator",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "A stock market emulator to teach trading to the students",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
-  "scripts": {
-    "dev": "nodemon  backend/server.js",
-    "start": "node backend/server.js"
+  "directories": {
+    "lib": "lib"
   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "A stock market emulator to teach trading to the students",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
