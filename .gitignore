@@ -1,0 +1,94 @@
+# Node.js dependencies (applies to both frontend and backend)
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+build/
+
+# Environment variables
+*.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Testing
+/coverage/
+
+# Temp files
+tmp/
+temp/
+*.tmp
+*.swp
+*.swo
+*.bak
+*.pid
+
+# Specific to frontend
+/frontend/.parcel-cache/     # Parcel build cache (if used)
+/frontend/.cache/            # React/Vue cache (if used)
+/frontend/build/             # React build directory (if used)
+/frontend/.next/             # Next.js build output
+/frontend/out/               # Next.js static export
+/frontend/.nuxt/             # Nuxt.js build output
+/frontend/.eslintcache       # ESLint cache
+/frontend/node_modules/
+
+# Specific to backend
+/backend/node_modules/       # Backend node_modules
+/backend/dist/               # Backend build output (e.g., transpiled code)
+/backend/.nuxt/              # Nuxt.js build output
+/backend/.eslintcache        # ESLint cache
+
+# npm / Yarn / pnpm lock files (if not used)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Lint/styling tools
+/.eslintcache                # ESLint cache
+/.prettiercache              # Prettier cache
+
+# Debugger files
+*.stackdump
+
+# Miscellaneous
+*.log
+*.gz
+*.zip
+*.bak
+*.tmp
+*.swp
+
+# Production build files (optional, if applicable)
+/public/                     # Public folder for static files
+/static/                     # Static assets
+/.firebase/                  # Firebase build cache (if applicable)
+/.next/                      # Next.js build files
+/.vercel/                    # Vercel deployment cache
+
+# Docker (if applicable)
+.dockerignore
+docker-compose.yml
+Dockerfile*
+
+# Git-specific
+.git/
+*.orig                       # Merge conflict backups
+
