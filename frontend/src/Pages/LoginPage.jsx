@@ -1,4 +1,5 @@
 import React from "react";
+import { ChartNoAxesCombined } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const LoginPage = () => {
@@ -9,7 +10,10 @@ const LoginPage = () => {
     <div className="flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8 w-full">
       <div className="bg-white rounded-xl shadow-md p-10 max-w-md w-full">
         <div className="flex flex-col justify-center items-start">
-          <h2 className="text-3xl font-medium text-black mb-4">Login</h2>
+          <h2 className="text-3xl font-medium text-black mb-4">
+            <ChartNoAxesCombined />
+            Login
+          </h2>
           <p className="text-gray-600 mb-6"> Login to your account</p>
         </div>
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-import { Eye, EyeOff } from "lucide-react";
+import { ChartNoAxesCombined } from "lucide-react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from "react-router-dom";
 
@@ -13,7 +13,10 @@ const SignupPage = () => {
     <div className="flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8 w-full">
       <div className="bg-white rounded-xl shadow-md p-10 max-w-3xl w-full">
         <div className="flex flex-col justify-center items-start">
-          <h2 className="text-3xl font-medium text-black mb-4">Sign Up</h2>
+          <h2 className="text-3xl font-medium text-black mb-4">
+            <ChartNoAxesCombined />
+            Sign Up
+          </h2>
           <p className="text-gray-600 mb-6">
             {" "}
             Enter your details below to create your account and start trading
