@@ -72,10 +72,7 @@ export const useUserStore = create((set, get) => ({
       set({ user: res.data });
     } catch (error) {
       console.log("Error in checkAuth", error);
-      return toast.error(
-        error.response.data.message ||
-          "Something went wrong , Please login again"
-      );
+      set({ user: null });
     } finally {
       set({ checkingAuth: false });
     }

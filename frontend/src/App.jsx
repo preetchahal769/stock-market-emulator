@@ -7,6 +7,7 @@ import { useUserStore } from "./store/useUserStore";
 import { useEffect } from "react";
 import "./App.css";
 import Spinner from "./Components/Spinner";
+import VerifyOtp from "./Pages/VerifyOtp";
 
 function App() {
   const { user, checkingAuth, checkAuth } = useUserStore();
@@ -24,6 +25,16 @@ function App() {
           <Route
             path="/"
             element={!user ? <Navigate to="/login" /> : <Home />}
+          />
+          <Route
+            path="/verify-otp"
+            element={
+              !user || !user.userVerified ? (
+                <VerifyOtp />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
           <Route
             path="/signup"
