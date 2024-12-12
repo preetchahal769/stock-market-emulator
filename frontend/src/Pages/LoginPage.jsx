@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChartNoAxesCombined } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useUserStore } from "../store/useUserStore";
 
 const LoginPage = () => {
+  const [data, setData] = useState({ email: "", password: "" });
+  const { login } = useUserStore();
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    try {
+      login(data);
+      setData({ email: "", password: "" });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8 w-full">
@@ -32,6 +42,8 @@ const LoginPage = () => {
               type="text"
               id="Email"
               name="Email"
+              value={data.email}
+              onChange={(e) => setData({ ...data, email: e.target.value })}
               className="mt-1 p-2 block w-full rounded-md border-[1px] border-gray-300 text-gray-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm"
               placeholder="example@ex.com"
             />
@@ -48,6 +60,8 @@ const LoginPage = () => {
               type="password"
               id="password"
               name="password"
+              value={data.password}
+              onChange={(e) => setData({ ...data, password: e.target.value })}
               className="mt-1 p-2 block w-full rounded-md border-[1px] border-gray-300 text-gray-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm"
               placeholder="1234567890"
             />{" "}

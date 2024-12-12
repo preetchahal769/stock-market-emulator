@@ -49,7 +49,7 @@ const setCookies = (res, accessToken, refreshToken) => {
 };
 
 export const signup = async (req, res) => {
-  // console.log(req.body);
+  console.log(req.body);
   const {
     fullName,
     email,
@@ -138,6 +138,14 @@ export const logout = async (req, res) => {
   }
 };
 
+export const getProfile = async (req, res) => {
+  try {
+    res.json(req.user);
+  } catch (error) {
+    res.status(500).json({ msg: "server error", error: error.message });
+  }
+};
+
 export const refreshToken = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
@@ -220,12 +228,9 @@ export const verifyOtp = async (req, res) => {
     }
 
     if (!user.verificationToken) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "Verification token not found , Resend the verification email",
-        });
+      return res.status(400).json({
+        message: "Verification token not found , Resend the verification email",
+      });
     }
 
     const isVerified = await bcrypt.compare(otp, user.verificationToken);

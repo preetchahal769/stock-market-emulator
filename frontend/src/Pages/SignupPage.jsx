@@ -3,11 +3,35 @@ import DatePicker from "react-datepicker";
 import { ChartNoAxesCombined } from "lucide-react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from "react-router-dom";
+import { useUserStore } from "../store/useUserStore";
 
 const SignupPage = () => {
-  const [startDate, setStartDate] = useState();
+  const [data, setData] = useState({
+    fullName: "",
+    email: "",
+    dateOfBirth: "",
+    phoneNumber: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const { signup } = useUserStore();
+
+  // const [startDate, setStartDate] = useState();
   const handleSubmit = (e) => {
     e.preventDefault();
+    try {
+      signup(data);
+      setData({
+        fullName: "",
+        email: "",
+        dateOfBirth: "",
+        phoneNumber: "",
+        password: "",
+        confirmPassword: "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8 w-full">
@@ -38,6 +62,8 @@ const SignupPage = () => {
               type="text"
               id="fullName"
               name="fullName"
+              value={data.fullName}
+              onChange={(e) => setData({ ...data, fullName: e.target.value })}
               className="mt-1 p-2 block w-full rounded-md border-[1px] border-gray-300 text-gray-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm"
               placeholder="Enter..."
             />
@@ -53,6 +79,8 @@ const SignupPage = () => {
               type="text"
               id="Email"
               name="Email"
+              value={data.email}
+              onChange={(e) => setData({ ...data, email: e.target.value })}
               className="mt-1 p-2 block w-full rounded-md border-[1px] border-gray-300 text-gray-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm"
               placeholder="example@ex.com"
             />
@@ -65,8 +93,8 @@ const SignupPage = () => {
               Date of Birth
             </label>
             <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              selected={data.dateOfBirth}
+              onChange={(date) => setData({ ...data, dateOfBirth: date })}
               dateFormat={"dd/MM/yyyy"}
               className="mt-1 p-2 w-full block rounded-md border-[1px] border-gray-300 text-gray-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm "
               placeholderText="MM/DD/YYYY"
@@ -85,6 +113,10 @@ const SignupPage = () => {
               type="text"
               id="phoneNumber"
               name="phoneNumber"
+              value={data.phoneNumber}
+              onChange={(e) =>
+                setData({ ...data, phoneNumber: e.target.value })
+              }
               className="mt-1 p-2 block w-full rounded-md border-[1px] border-gray-300 text-gray-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm"
               placeholder="1234567890"
             />
@@ -100,6 +132,8 @@ const SignupPage = () => {
               type="password"
               id="password"
               name="password"
+              value={data.password}
+              onChange={(e) => setData({ ...data, password: e.target.value })}
               className="mt-1 p-2 block w-full rounded-md border-[1px] border-gray-300 text-gray-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm"
               placeholder="1234567890"
             />{" "}
@@ -115,6 +149,10 @@ const SignupPage = () => {
               type="password"
               id="confirmPassword"
               name="confirmPassword"
+              value={data.confirmPassword}
+              onChange={(e) =>
+                setData({ ...data, confirmPassword: e.target.value })
+              }
               className="mt-1 p-2 block w-full rounded-md border-[1px] border-gray-300 text-gray-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm"
               placeholder="1234567890"
             />{" "}

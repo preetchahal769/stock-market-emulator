@@ -47,19 +47,19 @@ To run this project
    cd stock-market-emulator
 
    npm install
-   cd frontend && npm install
+
 
    # Run backend
-     npm run dev
+     npm run backend
 
    # Run frontend
-     cd frontend && npm start
+     npm run frontend
 
 ```
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables to your .env file . Keep .env file in backend folder
 
 ```shell
 

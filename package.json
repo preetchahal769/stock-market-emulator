@@ -1,0 +1,13 @@
+{
+  "name": "stock-market-emulator",
+  "version": "1.0.0",
+  "description": "**A beginner-friendly platform to simulate stock and option trading without financial risk.**",
+  "main": "index.js",
+  "scripts": {
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
