@@ -1,12 +1,9 @@
-//  Libary Imports
-import express from "express";
-import dotenv from "dotenv";
-import { connectDB } from "./lib/db.js";
-import cookieParser from "cookie-parser";
+import express from 'express';
+import dotenv from 'dotenv';
+import { connectDB } from './lib/db.js';
+import cookieParser from 'cookie-parser';
 import logger from './lib/logger.js';
-
-// import routes
-import authRoutes from "./routes/auth.routes.js";
+import authRoutes from './routes/auth.routes.js';
 
 dotenv.config();
 const app = express();
@@ -18,7 +15,8 @@ app.use(cookieParser());
 // Log server startup
 logger.info('Server is starting...');
 
-app.use("/api/auth", authRoutes);
+// Routes
+app.use('/api/auth', authRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -26,7 +24,8 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Something went wrong' });
 });
 
+// Start server and connect to DB
 app.listen(PORT, () => {
   logger.info(`Server running on http://localhost:${PORT}`);
-  connectDB();
+  connectDB(); // Connect to MongoDB
 });

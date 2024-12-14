@@ -19,4 +19,5 @@ router.get("/profile", protectRoute, getProfile);
 router.post("/refresh-token", refreshToken);
 router.post("/verificationMail", protectRoute, verificationMail);
 router.post("/verifyOtp", protectRoute, verifyOtp);
+
 export default router;

@@ -22,7 +22,7 @@ export const protectRoute = async (req, res, next) => {
       if (!user) {
         return res.status(401).json({ message: "User not found" });
       }
-      logger.info('Route protected');
+      logger.info('Token Verified');
       req.user = user;
 
       next();

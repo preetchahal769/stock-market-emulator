@@ -80,7 +80,7 @@ export const signup = async (req, res) => {
     const { accessToken, refreshToken } = generateTokens(newUser._id);
     await storeRefreshToken(newUser._id, refreshToken);
     setCookies(res, accessToken, refreshToken);
-    logger.info(`${newUser.fullName} User created`);
+    logger.info(`$userName: {newUser.fullName}, email: ${newUser.email} created`);
     logger.info("Tokens created");
     return res.status(201).json({
       _id: newUser._id,
@@ -105,7 +105,7 @@ export const login = async (req, res) => {
       const { accessToken, refreshToken } = generateTokens(user._id);
       await storeRefreshToken(user._id, refreshToken);
       setCookies(res, accessToken, refreshToken);
-      logger.info(`${user.fullName} Logged in`);
+      logger.info(`userName: ${user.fullName}, email: ${user.email} Logged in`);
       res.json({
         _id: user._id,
         name: user.name,
@@ -131,7 +131,7 @@ export const logout = async (req, res) => {
       );
       await redis.del(`refresh_token:${decoded.userId}`);
     }
-    logger.info("User logged out");
+    logger.info(`User logged out`);
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");
     res.json({ message: "Logged out successfully" });
@@ -176,6 +176,7 @@ export const refreshToken = async (req, res) => {
       sameSite: "strict",
       maxAge: 15 * 60 * 1000,
     });
+    logger.info("Token refreshed")
     res.json({ msg: "Token refreshed" });
   } catch (error) {
     res.status(500).json({ msg: error.message });
@@ -209,7 +210,7 @@ export const verificationMail = async (req, res) => {
 
     res
       .status(200)
-      .json({ message: "Email sent successfully , Chek your inbox" });
+      .json({ message: "Otp sent successfully , Check your mail inbox" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });
