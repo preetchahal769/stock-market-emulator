@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
+import logger from '../lib/logger.js';
 
 export const protectRoute = async (req, res, next) => {
   try {
@@ -21,7 +22,7 @@ export const protectRoute = async (req, res, next) => {
       if (!user) {
         return res.status(401).json({ message: "User not found" });
       }
-
+      logger.info('Route protected');
       req.user = user;
 
       next();
