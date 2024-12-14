@@ -81,7 +81,7 @@ export const signup = async (req, res) => {
     await storeRefreshToken(newUser._id, refreshToken);
     setCookies(res, accessToken, refreshToken);
     logger.info(`${newUser.fullName} User created`);
-    logger.info('Tokens created');
+    logger.info("Tokens created");
     return res.status(201).json({
       _id: newUser._id,
       fullName: newUser.fullName,
@@ -105,7 +105,7 @@ export const login = async (req, res) => {
       const { accessToken, refreshToken } = generateTokens(user._id);
       await storeRefreshToken(user._id, refreshToken);
       setCookies(res, accessToken, refreshToken);
-      logger.info(`${newUser.fullName} Logged in`);
+      logger.info(`${user.fullName} Logged in`);
       res.json({
         _id: user._id,
         name: user.name,
@@ -131,7 +131,7 @@ export const logout = async (req, res) => {
       );
       await redis.del(`refresh_token:${decoded.userId}`);
     }
-    logger.info('User logged out');
+    logger.info("User logged out");
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");
     res.json({ message: "Logged out successfully" });
