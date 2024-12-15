@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
 import dotenv from "dotenv";
-import logger from './logger.js';
+import logger from "./logger.js";
 
 dotenv.config();
 const oAuth2Client = new google.auth.OAuth2(
@@ -12,7 +12,7 @@ const oAuth2Client = new google.auth.OAuth2(
 
 oAuth2Client.setCredentials({ refresh_token: process.env.MAIL_REFRESH_TOKEN });
 
-export const sendVerificationEmail = async (email, otp, res) => {
+export const sendVerificationEmail = async (email, otp, res, req) => {
   try {
     const accessToken = await oAuth2Client.getAccessToken();
     const transporter = nodemailer.createTransport({
@@ -57,7 +57,8 @@ export const sendVerificationEmail = async (email, otp, res) => {
     };
     const info = await transporter.sendMail(mailOptions);
     console.log("Email sent: " + info.response);
-    logger.info(`Email sent to ${req.email}`);
+    console.log("Email sent to " + req);
+    // logger.info(`Email sent to ${req}`);
 
     return info.response;
   } catch (error) {

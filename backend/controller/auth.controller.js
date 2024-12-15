@@ -80,7 +80,9 @@ export const signup = async (req, res) => {
     const { accessToken, refreshToken } = generateTokens(newUser._id);
     await storeRefreshToken(newUser._id, refreshToken);
     setCookies(res, accessToken, refreshToken);
-    logger.info(`$userName: {newUser.fullName}, email: ${newUser.email} created`);
+    logger.info(
+      `$userName: {newUser.fullName}, email: ${newUser.email} created`
+    );
     logger.info("Tokens created");
     return res.status(201).json({
       _id: newUser._id,
@@ -176,7 +178,7 @@ export const refreshToken = async (req, res) => {
       sameSite: "strict",
       maxAge: 15 * 60 * 1000,
     });
-    logger.info("Token refreshed")
+    logger.info("Token refreshed");
     res.json({ msg: "Token refreshed" });
   } catch (error) {
     res.status(500).json({ msg: error.message });
@@ -201,11 +203,10 @@ export const verificationMail = async (req, res) => {
       return res.status(400).json({ message: "User already verified" });
     }
 
-    await sendVerificationEmail(email, otp, res);
+    await sendVerificationEmail(email, otp, req);
 
     if (user) {
-      user.verificationToken = hashedOtp;
-      await user.save();
+      await redis.set(`otp:${user._id}`, hashedOtp, "EX", 15 * 60);
     }
 
     res
@@ -231,13 +232,13 @@ export const verifyOtp = async (req, res) => {
       return res.status(400).json({ message: "User already verified" });
     }
 
-    if (!user.verificationToken) {
-      return res.status(400).json({
-        message: "Verification token not found , Resend the verification email",
-      });
+    const storedOtp = await redis.get(`otp:${user._id}`);
+
+    if (!storedOtp) {
+      return res.status(400).json({ message: "Invalid OTP" });
     }
 
-    const isVerified = await bcrypt.compare(otp, user.verificationToken);
+    const isVerified = await bcrypt.compare(otp, storedOtp);
 
     if (!isVerified) {
       return res.status(400).json({ message: "Invalid OTP" });
@@ -246,6 +247,21 @@ export const verifyOtp = async (req, res) => {
     user.userVerified = true;
     await user.save();
 
-    res.status(200).json({ message: "User verified successfully" });
-  } catch (error) {}
+    await redis.del(`otp:${user._id}`);
+    res.status(200).json({
+      user: {
+        _id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+        phoneNumber: user.phoneNumber,
+        dateOfBirth: user.dateOfBirth,
+        userVerified: user.userVerified,
+      },
+      message: "User verified successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
