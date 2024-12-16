@@ -12,7 +12,7 @@ const oAuth2Client = new google.auth.OAuth2(
 
 oAuth2Client.setCredentials({ refresh_token: process.env.MAIL_REFRESH_TOKEN });
 
-export const sendVerificationEmail = async (email, otp, res, req) => {
+export const sendVerificationEmail = async (email, otp, req) => {
   try {
     const accessToken = await oAuth2Client.getAccessToken();
     const transporter = nodemailer.createTransport({
@@ -57,8 +57,8 @@ export const sendVerificationEmail = async (email, otp, res, req) => {
     };
     const info = await transporter.sendMail(mailOptions);
     console.log("Email sent: " + info.response);
-    console.log("Email sent to " + req);
-    // logger.info(`Email sent to ${req}`);
+
+    logger.info(`Email sent to ${req.user.email}`);
 
     return info.response;
   } catch (error) {
