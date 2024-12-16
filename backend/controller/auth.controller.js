@@ -203,10 +203,16 @@ export const verificationMail = async (req, res) => {
       return res.status(400).json({ message: "User already verified" });
     }
 
+    const storedOtp = await redis.get(`otp:${user._id}`);
+
+    if (storedOtp) {
+      await redis.del(`otp:${user._id}`);
+    }
+
     await sendVerificationEmail(email, otp, req);
 
     if (user) {
-      await redis.set(`otp:${user._id}`, hashedOtp, "EX", 15 * 60);
+      await redis.set(`otp:${user._id}`, hashedOtp, "EX", 5 * 60);
     }
 
     res
